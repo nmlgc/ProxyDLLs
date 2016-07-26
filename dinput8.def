@@ -1,0 +1,2 @@
+EXPORTS
+	DirectInput8Create = my_DirectInput8Create
