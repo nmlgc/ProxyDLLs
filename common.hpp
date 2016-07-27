@@ -54,6 +54,36 @@ struct FUNCINITPAIR {
 #define PAIR(func) \
 	{(void**)&sys_##func, #func}
 
+void ErrorMessageBoxF(DWORD Error, const wchar_t *PrefixFormat, ...)
+{
+	va_list va;
+	va_start(va, PrefixFormat);
+
+	wchar_t *error_str = NULL;
+	DWORD error_len = FormatMessageW(
+		FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_ALLOCATE_BUFFER,
+		NULL, GetLastError(), MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
+		(LPWSTR)&error_str, 0, NULL
+	) + 1;
+
+	wchar_t *prefix_str = NULL;
+	UINT prefix_len = FormatMessageW(
+		FORMAT_MESSAGE_FROM_STRING | FORMAT_MESSAGE_ALLOCATE_BUFFER,
+		PrefixFormat, 0, 0, (LPWSTR)&prefix_str, 0, &va
+	) + 1;
+
+	UINT full_len = prefix_len + error_len;
+	wchar_t *full_str = new wchar_t[full_len];
+	lstrcpyW(full_str, prefix_str);
+	lstrcpyW(full_str + prefix_len - 1, error_str);
+
+	MessageBoxW(NULL, full_str, NULL, MB_OK | MB_ICONEXCLAMATION);
+
+	delete[] full_str;
+	LocalFree(prefix_str);
+	LocalFree(error_str);
+}
+
 wchar_t* SystemDLLPath(const wchar_t *DLL)
 {
 	UINT dll_len = lstrlenW(DLL) + 1;
@@ -97,7 +127,13 @@ BOOL DllMainFor(HMODULE *hMod, const wchar_t *DLL, const FUNCINITPAIR *Pair, DWO
 	switch(ulReasonForCall) {
 	case DLL_PROCESS_ATTACH:
 		*hMod = LoadSystemDLL(DLL);
-		// TODO: GetLastError, FormatMessage, etc.
+		if(!(*hMod)) {
+			DWORD error = GetLastError();
+			ErrorMessageBoxF(error,
+				L"Couldn't load the system DLL for %1: ", DLL
+			);
+			ExitProcess(error);
+		}
 		for(p = Pair; p->name; p++) {
 			*p->func = (void*)GetProcAddress(*hMod, p->name);
 			// TODO: GetLastError, FormatMessage, etc.
