@@ -24,6 +24,278 @@ FUNCINITPAIR dinput8_pair[] = {
 };
 /// -------------------------------
 
+/// IDirectInputDevice8A
+/// --------------------
+class my_IDirectInputDevice8A : public IDirectInputDevice8A
+{
+	DECLARE_COM_PROXY_CLASS_FOR(IDirectInputDevice8A);
+
+	STDMETHOD(GetCapabilities)(LPDIDEVCAPS);
+	STDMETHOD(EnumObjects)(LPDIENUMDEVICEOBJECTSCALLBACKA, LPVOID, DWORD);
+	STDMETHOD(GetProperty)(REFGUID, LPDIPROPHEADER);
+	STDMETHOD(SetProperty)(REFGUID, LPCDIPROPHEADER);
+	STDMETHOD(Acquire)();
+	STDMETHOD(Unacquire)();
+	STDMETHOD(GetDeviceState)(DWORD, LPVOID);
+	STDMETHOD(GetDeviceData)(DWORD, LPDIDEVICEOBJECTDATA, LPDWORD, DWORD);
+	STDMETHOD(SetDataFormat)(LPCDIDATAFORMAT);
+	STDMETHOD(SetEventNotification)(HANDLE);
+	STDMETHOD(SetCooperativeLevel)(HWND, DWORD);
+	STDMETHOD(GetObjectInfo)(LPDIDEVICEOBJECTINSTANCEA, DWORD, DWORD);
+	STDMETHOD(GetDeviceInfo)(LPDIDEVICEINSTANCEA);
+	STDMETHOD(RunControlPanel)(HWND, DWORD);
+	STDMETHOD(Initialize)(HINSTANCE, DWORD, REFGUID);
+	STDMETHOD(CreateEffect)(REFGUID, LPCDIEFFECT, LPDIRECTINPUTEFFECT *, LPUNKNOWN);
+	STDMETHOD(EnumEffects)(LPDIENUMEFFECTSCALLBACKA, LPVOID, DWORD);
+	STDMETHOD(GetEffectInfo)(LPDIEFFECTINFOA, REFGUID);
+	STDMETHOD(GetForceFeedbackState)(LPDWORD);
+	STDMETHOD(SendForceFeedbackCommand)(DWORD);
+	STDMETHOD(EnumCreatedEffectObjects)(LPDIENUMCREATEDEFFECTOBJECTSCALLBACK, LPVOID, DWORD);
+	STDMETHOD(Escape)(LPDIEFFESCAPE);
+	STDMETHOD(Poll)();
+	STDMETHOD(SendDeviceData)(DWORD, LPCDIDEVICEOBJECTDATA, LPDWORD, DWORD);
+	STDMETHOD(EnumEffectsInFile)(LPCSTR, LPDIENUMEFFECTSINFILECALLBACK, LPVOID, DWORD);
+	STDMETHOD(WriteEffectToFile)(LPCSTR, DWORD, LPDIFILEEFFECT, DWORD);
+	STDMETHOD(BuildActionMap)(LPDIACTIONFORMATA, LPCSTR, DWORD);
+	STDMETHOD(SetActionMap)(LPDIACTIONFORMATA, LPCSTR, DWORD);
+	STDMETHOD(GetImageInfo)(LPDIDEVICEIMAGEINFOHEADERA);
+};
+
+IMPLEMENT_IUNKNOWN_FOR(my_IDirectInputDevice8A);
+
+HRESULT my_IDirectInputDevice8A::GetCapabilities(
+	LPDIDEVCAPS lpDIDevCaps
+)
+{
+	return pOrig->GetCapabilities(lpDIDevCaps);
+}
+
+HRESULT my_IDirectInputDevice8A::EnumObjects(
+	LPDIENUMDEVICEOBJECTSCALLBACKA lpCallback,
+	LPVOID pvRef,
+	DWORD dwFlags
+)
+{
+	return pOrig->EnumObjects(lpCallback, pvRef, dwFlags);
+}
+
+HRESULT my_IDirectInputDevice8A::GetProperty(
+	REFGUID rguidProp,
+	LPDIPROPHEADER pdiph
+)
+{
+	return pOrig->GetProperty(rguidProp, pdiph);
+}
+
+HRESULT my_IDirectInputDevice8A::SetProperty(
+	REFGUID rguidProp,
+	LPCDIPROPHEADER pdiph
+)
+{
+	return pOrig->SetProperty(rguidProp, pdiph);
+}
+
+HRESULT my_IDirectInputDevice8A::Acquire()
+{
+	return pOrig->Acquire();
+}
+
+HRESULT my_IDirectInputDevice8A::Unacquire()
+{
+	return pOrig->Unacquire();
+}
+
+HRESULT my_IDirectInputDevice8A::GetDeviceState(
+	DWORD cbData,
+	LPVOID lpvData
+)
+{
+	return pOrig->GetDeviceState(cbData, lpvData);
+}
+
+HRESULT my_IDirectInputDevice8A::GetDeviceData(
+	DWORD cbObjectData,
+	LPDIDEVICEOBJECTDATA rgdod,
+	LPDWORD pdwInOut,
+	DWORD dwFlags
+)
+{
+	return pOrig->GetDeviceData(cbObjectData, rgdod, pdwInOut, dwFlags);
+}
+
+HRESULT my_IDirectInputDevice8A::SetDataFormat(
+	LPCDIDATAFORMAT lpdf
+)
+{
+	return pOrig->SetDataFormat(lpdf);
+}
+
+HRESULT my_IDirectInputDevice8A::SetEventNotification(
+	HANDLE hEvent
+)
+{
+	return pOrig->SetEventNotification(hEvent);
+}
+
+HRESULT my_IDirectInputDevice8A::SetCooperativeLevel(
+	HWND hWnd,
+	DWORD dwFlags
+)
+{
+	return pOrig->SetCooperativeLevel(hWnd, dwFlags);
+}
+
+HRESULT my_IDirectInputDevice8A::GetObjectInfo(
+	LPDIDEVICEOBJECTINSTANCEA pdidoi,
+	DWORD dwObj,
+	DWORD dwHow
+)
+{
+	return pOrig->GetObjectInfo(pdidoi, dwObj, dwHow);
+}
+
+HRESULT my_IDirectInputDevice8A::GetDeviceInfo(
+	LPDIDEVICEINSTANCEA pdidi
+)
+{
+	return pOrig->GetDeviceInfo(pdidi);
+}
+
+HRESULT my_IDirectInputDevice8A::RunControlPanel(
+	HWND hWndOwner,
+	DWORD dwFlags
+)
+{
+	return pOrig->RunControlPanel(hWndOwner, dwFlags);
+}
+
+HRESULT my_IDirectInputDevice8A::Initialize(
+	HINSTANCE hInst,
+	DWORD dwVersion,
+	REFGUID rguid
+)
+{
+	return pOrig->Initialize(hInst, dwVersion, rguid);
+}
+
+HRESULT my_IDirectInputDevice8A::CreateEffect(
+	REFGUID rguid,
+	LPCDIEFFECT lpeff,
+	LPDIRECTINPUTEFFECT * ppdeff,
+	LPUNKNOWN pUnkOuter
+)
+{
+	return pOrig->CreateEffect(rguid, lpeff, ppdeff, pUnkOuter);
+}
+
+HRESULT my_IDirectInputDevice8A::EnumEffects(
+	LPDIENUMEFFECTSCALLBACKA lpCallback,
+	LPVOID pvRef,
+	DWORD dwEffType
+	)
+{
+	return pOrig->EnumEffects(lpCallback, pvRef, dwEffType);
+}
+
+HRESULT my_IDirectInputDevice8A::GetEffectInfo(
+	LPDIEFFECTINFOA pdei,
+	REFGUID rguid
+)
+{
+	return pOrig->GetEffectInfo(pdei, rguid);
+}
+
+HRESULT my_IDirectInputDevice8A::GetForceFeedbackState(
+	LPDWORD pdwOut
+)
+{
+	return pOrig->GetForceFeedbackState(pdwOut);
+}
+
+HRESULT my_IDirectInputDevice8A::SendForceFeedbackCommand(
+	DWORD dwFlags
+)
+{
+	return pOrig->SendForceFeedbackCommand(dwFlags);
+}
+
+HRESULT my_IDirectInputDevice8A::EnumCreatedEffectObjects(
+	LPDIENUMCREATEDEFFECTOBJECTSCALLBACK lpCallback,
+	LPVOID pvRef,
+	DWORD fl
+)
+{
+	return pOrig->EnumCreatedEffectObjects(lpCallback, pvRef, fl);
+}
+
+HRESULT my_IDirectInputDevice8A::Escape(
+	LPDIEFFESCAPE pesc
+)
+{
+	return pOrig->Escape(pesc);
+}
+
+HRESULT my_IDirectInputDevice8A::Poll()
+{
+	return pOrig->Poll();
+}
+
+HRESULT my_IDirectInputDevice8A::SendDeviceData(
+	DWORD cbObjectData,
+	LPCDIDEVICEOBJECTDATA rgdod,
+	LPDWORD pdwInOut,
+	DWORD fl
+)
+{
+	return pOrig->SendDeviceData(cbObjectData, rgdod, pdwInOut, fl);
+}
+
+HRESULT my_IDirectInputDevice8A::EnumEffectsInFile(
+	LPCSTR lpszFileName,
+	LPDIENUMEFFECTSINFILECALLBACK pec,
+	LPVOID pvRef,
+	DWORD dwFlags
+)
+{
+	return pOrig->EnumEffectsInFile(lpszFileName, pec, pvRef, dwFlags);
+}
+
+HRESULT my_IDirectInputDevice8A::WriteEffectToFile(
+	LPCSTR lpszFileName,
+	DWORD dwEntries,
+	LPDIFILEEFFECT rgDiFileEft,
+	DWORD dwFlags
+)
+{
+	return pOrig->WriteEffectToFile(lpszFileName, dwEntries, rgDiFileEft, dwFlags);
+}
+
+HRESULT my_IDirectInputDevice8A::BuildActionMap(
+	LPDIACTIONFORMATA lpdiaf,
+	LPCSTR lpszUserName,
+	DWORD dwFlags
+)
+{
+	return pOrig->BuildActionMap(lpdiaf, lpszUserName, dwFlags);
+}
+
+HRESULT my_IDirectInputDevice8A::SetActionMap(
+	LPDIACTIONFORMATA lpdiActionFormat,
+	LPCSTR lpszUserName,
+	DWORD dwFlags
+)
+{
+	return pOrig->SetActionMap(lpdiActionFormat, lpszUserName, dwFlags);
+}
+
+HRESULT my_IDirectInputDevice8A::GetImageInfo(
+	LPDIDEVICEIMAGEINFOHEADERA lpdiDevImageInfoHeader
+)
+{
+	return pOrig->GetImageInfo(lpdiDevImageInfoHeader);
+}
+/// --------------------
+
 /// IDirectInput8A
 /// --------------
 class my_IDirectInput8A : public IDirectInput8A
@@ -48,7 +320,12 @@ HRESULT my_IDirectInput8A::CreateDevice(
 	LPUNKNOWN pUnkOuter
 )
 {
-	return pOrig->CreateDevice(rguid, lplpDirectInputDevice, pUnkOuter);
+	IDirectInputDevice8A *pOrigDevice;
+	HRESULT ret = pOrig->CreateDevice(rguid, &pOrigDevice, pUnkOuter);
+	if(SUCCEEDED(ret)) {
+		*lplpDirectInputDevice = new my_IDirectInputDevice8A(pOrigDevice);
+	}
+	return ret;
 }
 
 HRESULT my_IDirectInput8A::EnumDevices(
