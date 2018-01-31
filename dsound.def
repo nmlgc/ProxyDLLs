@@ -1,0 +1,2 @@
+EXPORTS
+	DirectSoundCreate8 = my_DirectSoundCreate8	@11
