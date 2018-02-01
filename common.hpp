@@ -22,6 +22,9 @@ public: \
 #define IMPLEMENT_IUNKNOWN_FOR(x, QueryInterface_ReplaceCondition) \
 	HRESULT x::QueryInterface(REFIID riid, void** ppvObj) \
 	{ \
+		if(!ppvObj) { \
+			return E_POINTER; \
+		} \
 		*ppvObj = NULL; \
 		\
 		HRESULT hRes = pOrig->QueryInterface(riid, ppvObj); \
