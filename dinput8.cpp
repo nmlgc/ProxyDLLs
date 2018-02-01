@@ -61,7 +61,7 @@ class my_IDirectInputDevice8A : public IDirectInputDevice8A
 	STDMETHOD(GetImageInfo)(LPDIDEVICEIMAGEINFOHEADERA);
 };
 
-IMPLEMENT_IUNKNOWN_FOR(my_IDirectInputDevice8A);
+IMPLEMENT_IUNKNOWN_FOR(my_IDirectInputDevice8A, true);
 
 HRESULT my_IDirectInputDevice8A::GetCapabilities(
 	LPDIDEVCAPS lpDIDevCaps
@@ -312,7 +312,7 @@ class my_IDirectInput8A : public IDirectInput8A
 	STDMETHOD(ConfigureDevices)(LPDICONFIGUREDEVICESCALLBACK, LPDICONFIGUREDEVICESPARAMSA, DWORD, LPVOID);
 };
 
-IMPLEMENT_IUNKNOWN_FOR(my_IDirectInput8A);
+IMPLEMENT_IUNKNOWN_FOR(my_IDirectInput8A, true);
 
 HRESULT my_IDirectInput8A::CreateDevice(
 	REFGUID rguid,

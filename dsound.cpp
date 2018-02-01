@@ -42,7 +42,7 @@ class my_IDirectSound8 : public IDirectSound8
 	STDMETHOD(VerifyCertification)(LPDWORD);
 };
 
-IMPLEMENT_IUNKNOWN_FOR(my_IDirectSound8);
+IMPLEMENT_IUNKNOWN_FOR(my_IDirectSound8, true);
 
 HRESULT my_IDirectSound8::CreateSoundBuffer(
 	LPCDSBUFFERDESC pcDSBufferDesc,

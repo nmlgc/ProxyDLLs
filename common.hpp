@@ -19,13 +19,13 @@ public: \
 	ULONG __stdcall AddRef(); \
 	ULONG __stdcall Release();
 
-#define IMPLEMENT_IUNKNOWN_FOR(x) \
+#define IMPLEMENT_IUNKNOWN_FOR(x, QueryInterface_ReplaceCondition) \
 	HRESULT x::QueryInterface(REFIID riid, void** ppvObj) \
 	{ \
 		*ppvObj = NULL; \
 		\
 		HRESULT hRes = pOrig->QueryInterface(riid, ppvObj); \
-		if(hRes == NOERROR) { \
+		if(hRes == NOERROR && (QueryInterface_ReplaceCondition)) { \
 			*ppvObj = this; \
 		} \
 		return hRes; \
