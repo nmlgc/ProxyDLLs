@@ -8,13 +8,16 @@
 #define SYS_GET_PROC_ADDRESS(handle, func) \
 	sys_##func = (func##_t)GetProcAddress(handle, #func)
 
+// Also comes with its own reference counting, in case someone needs to wrap
+// a NULL instance.
 #define DECLARE_COM_PROXY_CLASS_FOR(x) \
 protected: \
 	x *pOrig; \
-\
+	ULONG fallback_ref; \
+	\
 public: \
-	my_##x(x *_pOrig) : pOrig(_pOrig) {} \
-\
+	prefix##_##x(x *_pOrig) : pOrig(_pOrig), fallback_ref(1) {} \
+	\
 	HRESULT __stdcall QueryInterface(REFIID riid, LPVOID * ppvObj); \
 	ULONG __stdcall AddRef(); \
 	ULONG __stdcall Release();
@@ -24,6 +27,9 @@ public: \
 	{ \
 		if(!ppvObj) { \
 			return E_POINTER; \
+		} \
+		if(!pOrig) { \
+			return E_NOINTERFACE; \
 		} \
 		*ppvObj = NULL; \
 		\
@@ -36,12 +42,12 @@ public: \
 	\
 	ULONG x::AddRef() \
 	{ \
-		return pOrig->AddRef(); \
+		return !pOrig ? ++fallback_ref : pOrig->AddRef(); \
 	} \
 	\
 	ULONG x::Release() \
 	{ \
-		ULONG count = pOrig->Release(); \
+		ULONG count = !pOrig ? --fallback_ref : pOrig->Release(); \
 		if(count == 0) { \
 			delete this; \
 		} \
